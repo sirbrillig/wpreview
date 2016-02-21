@@ -25,5 +25,16 @@
     "debug": "^2.2.0",
     "wpcom": "^4.8.4",
     "wpcom-oauth-cors": "^1.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sirbrillig/wpreview.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sirbrillig/wpreview/issues"
+  },
+  "homepage": "https://github.com/sirbrillig/wpreview#readme"
 }
