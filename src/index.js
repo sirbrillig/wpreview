@@ -25,7 +25,7 @@ export function getPreviewForPost( wpcom, site, postId ) {
 function getPathForPost( wpcom, site, postId ) {
 	return new Promise( ( resolve, reject ) => {
 		if ( ! wpcom.site || ! site || ! postId ) return reject( new Error( 'Cannot fetch slug. Insufficient data available.' ) )
-		debug( 'fetching slug' )
+		debug( 'fetching slug', site, postId )
 		wpcom.site( site ).post( postId ).get()
 		.then( response => {
 			debug( 'got post data response', response )
@@ -38,9 +38,9 @@ function getPathForPost( wpcom, site, postId ) {
 
 export function getPreviewForSlug( wpcom, site, slug ) {
 	return new Promise( ( resolve, reject ) => {
-		if ( ! wpcom.req || ! site || ! slug ) return reject( new Error( 'Cannot fetch markup. Insufficient data available.' ) )
+		if ( ! wpcom.req || ! site || ! slug ) return reject( new Error( 'Cannot fetch preview. Insufficient data available.' ) )
 		const endpoint = `/sites/${site}/previews/mine?path=${slug}/`
-		debug( 'fetching preview' )
+		debug( 'fetching preview', endpoint )
 		wpcom.req.get( endpoint )
 		.then( response => {
 			debug( 'got preview markup response', response )
