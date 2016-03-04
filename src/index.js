@@ -13,14 +13,10 @@ export function getPreviewForPost( wpcom, site, postId ) {
 		if ( ! wpcom.req || ! site || ! postId ) return reject( new Error( 'Cannot fetch markup. Insufficient data available.' ) )
 		getPathForPost( wpcom, site, postId )
 		.then( slug => {
-			const endpoint = `/sites/${site}/previews/mine?path=${slug}/`
-			debug( 'fetching preview' )
-			return wpcom.req.get( endpoint )
+			return getPreviewForSlug( wpcom, site, slug )
 		} )
 		.then( response => {
-			debug( 'got preview markup response', response )
-			if ( ! response.html ) return reject( new Error( 'No markup received from API' ) )
-			resolve( response.html )
+			resolve( response )
 		} )
 		.catch( reject )
 	} )
@@ -35,6 +31,21 @@ function getPathForPost( wpcom, site, postId ) {
 			debug( 'got post data response', response )
 			if ( ! response.slug ) return reject( new Error( 'Failed to fetch post slug' ) )
 			resolve( response.slug )
+		} )
+		.catch( reject )
+	} )
+}
+
+export function getPreviewForSlug( wpcom, site, slug ) {
+	return new Promise( ( resolve, reject ) => {
+		if ( ! wpcom.req || ! site || ! slug ) return reject( new Error( 'Cannot fetch markup. Insufficient data available.' ) )
+		const endpoint = `/sites/${site}/previews/mine?path=${slug}/`
+		debug( 'fetching preview' )
+		wpcom.req.get( endpoint )
+		.then( response => {
+			debug( 'got preview markup response', response )
+			if ( ! response.html ) return reject( new Error( 'No markup received from API' ) )
+			resolve( response.html )
 		} )
 		.catch( reject )
 	} )
